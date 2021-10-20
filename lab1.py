@@ -1,17 +1,43 @@
-#ACHYUT SAPARIYA(180110120048)
-import numpy as np
+
 import matplotlib.pyplot as plt
-import math
 
-def sigmoid_binary(x):
-    ''' It returns 1/(1+exp(-x)). where the values lies between zero and one '''
+import numpy as np
 
-    return 1/(1+np.exp(-x))
+
+def identy(x):
+        return x
+
+def binary(x):
+    y=[]
+    for mem in x:
+        if mem > 0:
+            y.append(1)
+        else:
+            y.append(0)
+
+    return y
+
+def bipolar(x):
+    y=[]
+    for mem in x:
+        if mem > 0:
+            y.append(1)
+        else:
+            y.append(-1)
+
+    return y
 
 def sigmoid_bipolar(x):
-    ''' It returns (1-np.exp(-x))/(1+np.exp(-x)). where the values lies between -1 and 1 '''
+    if x >= 0:
+        return 1
+    else:
+        return -1
 
-    return (1-np.exp(-x))/(1+np.exp(-x))
+def linear(x):
+    y = 2.5
+    return y*x
+
+
 
 def bell_shaped(x):
 
@@ -20,33 +46,38 @@ def bell_shaped(x):
     y_out = 1 / (std * np.sqrt(2 * np.pi)) * np.exp(- (x - mean) ** 2 / (2 * std ** 2))
     return y_out
 
-def RELU(x):
-    ''' It returns zero if the input is less than zero otherwise it returns the given input. '''
-    x1=[]
-    for i in x:
-        if i<0:
-            x1.append(0)
-        else:
-            x1.append(i)
 
-    return x1
 
-def ramp(x):
-
-    ramp = []
-    for sample in x:
-        if sample < 0:
-            ramp.append(0)
-        else:
-            ramp.append(sample)
-    return ramp
 
 x = np.linspace(-10, 10)
-plt.plot(x, ramp(x))       #call function from above as per your req.
+plt.plot(x, bell_shaped(x))
 
-plt.axis('tight')
-plt.title('Activation Function :RAMP')
-plt.title("Achyut",
-             loc='right',
-             rotation=45)
+plt.title('Activation Function :bellshaped')
+plt.show()
+
+
+x = np.linspace(-10, 10)
+plt.plot(x, linear(x))
+
+plt.title('Activation Function : linear')
+plt.show()
+
+
+x = np.linspace(-10, 10)
+plt.plot(x, identy(x))
+
+plt.title('Activation Function :identy')
+plt.show()
+
+
+x = np.linspace(-10, 10)
+print(len(binary(x)))
+plt.plot(x, binary(x))
+plt.title('Activation Function : binary')
+plt.show()
+
+
+x = np.linspace(-10, 10)
+plt.plot(x, bipolar(x))
+plt.title('Activation Function : bipolar')
 plt.show()

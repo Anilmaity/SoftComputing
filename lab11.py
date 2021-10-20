@@ -1,55 +1,49 @@
-# Kick off by importing libraries, and outlining the Iris dataset
-import pandas as pd
-import sklearn
-from sklearn import preprocessing
-from sklearn.model_selection import train_test_split 
-from sklearn.preprocessing import StandardScaler  
-from sklearn.neural_network import MLPClassifier 
-from sklearn.metrics import classification_report, confusion_matrix 
 
-url = "https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data"
+from sklearn.neural_network import MLPClassifier
+import numpy as np
 
-# Let's start by naming the features
-names = ['sepal-length', 'sepal-width', 'petal-length', 'petal-width', 'Class']
+X = np.array([[1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1],
+            [1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0],
+            [0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0],
+          [1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0]])
 
-# Reading the dataset through a Pandas function
-irisdata = pd.read_csv(url, names=names)
+y = [1,2,0,3]
+'''
 
-# Takes first 4 columns and assign them to variable "X"
-X = irisdata.iloc[:, 0:4]
-# Takes first 5th columns and assign them to variable "Y". Object dtype refers to strings.
-y = irisdata.select_dtypes(include=[object])
+1 0 0 0 1      0 1 1 1 0
+0 1 0 1 0      1 0 0 0 1
+0 0 1 0 0      1 0 0 0 1
+0 1 0 1 0      1 0 0 0 1
+1 0 0 0 1      0 1 1 1 0
 
-X.head()
-y.head()
-
-# y actually contains all categories or classes:
-y.Class.unique()
-le = preprocessing.LabelEncoder()
-y = y.apply(le.fit_transform)
-
-y.head()
-
-# Now for train and test split (80% of  dataset into  training set and  other 20% into test data)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.20)
+Letter X       Letter O
+    1               0
 
 
-# Feature scaling
-scaler = StandardScaler()
-scaler.fit(X_train)
-X_train = scaler.transform(X_train)
-X_test = scaler.transform(X_test)
+1 0 0 0 1      1 1 1 1 0
+0 1 0 1 0      1 0 0 0 1
+0 0 1 0 0      1 0 0 0 1
+0 1 0 0 0      1 0 0 0 1
+1 0 0 0 0      1 1 1 1 0
 
+Letter  Y       Letter D
+    2               3
+'''
+
+print("4 Class problem to recogonize 4 different letter" )
 
 # Finally for the MLP- Multilayer Perceptron
-mlp = MLPClassifier(hidden_layer_sizes=(10, 10, 10), max_iter=1000)
-mlp.fit(X_train, y_train.values.ravel())
+print("perceptron model with 2 hidden layyer ")
+mlp = MLPClassifier(hidden_layer_sizes=(25,4), max_iter=500)
+mlp.fit(X, y)
 
 
-predictions = mlp.predict(X_test)
+predictions = mlp.predict(X)
 
-print(predictions)
 
-# Last thing: evaluation of algorithm performance in classifying flowers
-print(confusion_matrix(y_test,predictions))
-print(classification_report(y_test,predictions))
+print("The same input is given" + str(X))
+print(" for prediction and the output is  ")
+
+print(" 0 FOR 0 , 1 FOR X , 2 FOR Y , 3 FOR Z "+ str(predictions))
+
+

@@ -1,57 +1,89 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def gaussmf(x, mean, sigma):
+def trimf(x, abc):
     """
-    Gaussian fuzzy membership function.
-
-    Parameters
-    ----------
-    x : 1d array or iterable
-        Independent variable.
-    mean : float
-        Gaussian parameter for center (mean) value.
-    sigma : float
-        Gaussian parameter for standard deviation.
-
-    Returns
-    -------
-    y : 1d array
-        Gaussian membership function for x
-
-    """
-    return np.exp(-((x - mean) ** 2.) / float(sigma) ** 2.)
-
-
-def gbellmf(x, a, b, c):
-    """
-    Generalized Bell function fuzzy membership generator.
+    Triangular membership function generator.
 
     Parameters
     ----------
     x : 1d array
         Independent variable.
-    a : float
-        Bell function parameter controlling width. See Note for definition.
-    b : float
-        Bell function parameter controlling center. See Note for definition.
-    c : float
-        Bell function parameter controlling slope. See Note for definition.
+    abc : 1d array, length 3
+        Three-element vector controlling shape of triangular function.
+        Requires a <= b <= c.
 
     Returns
     -------
     y : 1d array
-        Generalized Bell fuzzy membership function.
-
-    Notes
-    -----
-    Definition of Generalized Bell function is:
-
-        y(x) = 1 / (1 + abs([x - c] / a) ** [2 * b])
+        Triangular membership function.
 
     """
-    return 1. / (1. + np.abs((x - c) / a) ** (2 * b))
+    assert len(abc) == 3, 'abc parameter must have exactly three elements.'
+    a, b, c = np.r_[abc]     # Zero-indexing in Python
+    assert a <= b and b <= c, 'abc requires the three elements a <= b <= c.'
+
+    y = np.zeros(len(x))
+
+    # Left side
+    if a != b:
+        idx = np.nonzero(np.logical_and(a < x, x < b))[0]
+        y[idx] = (x[idx] - a) / float(b - a)
+
+    # Right side
+    if b != c:
+        idx = np.nonzero(np.logical_and(b < x, x < c))[0]
+        y[idx] = (c - x[idx]) / float(c - b)
+
+    idx = np.nonzero(x == b)
+    y[idx] = 1
+    return y
+
+
+def Trapezoidal(x, abcd):
+    """
+    Trapezoidal membership function generator.
+
+    Parameters
+    ----------
+    x : 1d array
+        Independent variable.
+    abcd : 1d array, length 4
+        Four-element vector.  Ensure a <= b <= c <= d.
+
+    Returns
+    -------
+    y : 1d array
+        Trapezoidal membership function.
+
+    """
+    assert len(abcd) == 4, 'abcd parameter must have exactly four elements.'
+    a, b, c, d = np.r_[abcd]
+    assert a <= b and b <= c and c <= d, 'abcd requires the four elements \
+                                          a <= b <= c <= d.'
+    y = np.ones(len(x))
+
+    idx = np.nonzero(x <= b)[0]
+    y[idx] = trimf(x[idx], np.r_[a, b, b])
+
+    idx = np.nonzero(x >= c)[0]
+    y[idx] = trimf(x[idx], np.r_[c, c, d])
+
+    idx = np.nonzero(x < a)[0]
+    y[idx] = np.zeros(len(idx))
+
+    idx = np.nonzero(x > d)[0]
+    y[idx] = np.zeros(len(idx))
+
+    return y
 
 x = np.linspace(-1, 10)
-plt.plot(x, gbellmf(x,1,3,5))
+plt.title("Trapexoidal membership function")
+plt.plot(x, Trapezoidal(x,(1,3,5,7)))
+plt.show()
+
+x = np.linspace(-1, 10)
+
+plt.title("Triangular membership function")
+plt.plot(x, trimf(x,(1,3,5)))
 plt.show()

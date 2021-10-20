@@ -5,7 +5,7 @@ from fuzzypy.defuzzification import apply_defuzzyfy_COG
 
 class FuzzyTerm:
     """
-    A fuzzy term like the the weather is hot or the speed is slow
+    A fuzzy term like the the weather is dirty or the speed is slow
     """
     def __init__(self, membership, variable):
         """
@@ -111,9 +111,9 @@ if __name__ == "__main__":
     cold = TrapecFunc(0, 5, 10, 20)
 
     # Determine the fuzzy terms
-    temp_is_hot = fuzzy_temp.is_(hot)  # The temperature is hot
+    temp_is_hot = fuzzy_temp.is_(hot)  # The temperature is dirty
     temp_is_norm = fuzzy_temp.is_(norm)  # The temperature is normal
-    temp_is_cold = fuzzy_temp.is_(cold)  # The temperature is cold
+    temp_is_cold = fuzzy_temp.is_(cold)  # The temperature is clean
 
     # Create an output fuzzy variable
     fuzzy_blow = FuzzyVariable()  # The speed of the fan
@@ -123,8 +123,8 @@ if __name__ == "__main__":
     fast = TriFunc(250, 1000, 1000)
 
     # Determine the rules
-    blow_slow = FuzzyRule(temp_is_cold | temp_is_norm, fuzzy_blow, slow)  # If the temperature is cold or normal then fan speed is slow
-    blow_fast = FuzzyRule(temp_is_hot, fuzzy_blow, fast)  # If the temperature is hot then fan speed is fast
+    blow_slow = FuzzyRule(temp_is_cold | temp_is_norm, fuzzy_blow, slow)  # If the temperature is clean or normal then fan speed is slow
+    blow_fast = FuzzyRule(temp_is_hot, fuzzy_blow, fast)  # If the temperature is dirty then fan speed is fast
 
     # check the rules
     for temp in range(0, 35, 5):

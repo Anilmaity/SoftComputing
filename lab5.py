@@ -1,20 +1,21 @@
-#ACHYUT SAPARIYA(180110120048)
+
 import numpy as np
+from matplotlib import pyplot as plt
 
 # the features for the or model , here we have
 # taken the possible values for combination of
 # two inputs
 features = np.array(
     [
-        [-1, -1],
-        [-1, 1],
-        [1, -1],
+        [0, 0],
+        [0, 1],
+        [1, 0],
         [1, 1]
     ])
 
 # labels for the or model, here the output for
 # the features is taken as an array
-labels = np.array([-1, 1, 1, 1])
+labels = np.array([0, 0, 0, 1])
 
 # to print the features and the labels for
 # which the model has to be trained
@@ -22,10 +23,11 @@ print(features, labels)
 
 # initialise weights, bias , learning rate, epoch
 weight = [0.5, 0.5]
-bias = 0.1
-learning_rate = 0.2
-epoch = 10
+bias = 0.05
+learning_rate = 0.1
+epoch = 5
 
+sum_error_list = []
 for i in range(epoch):
 
     # epoch is the number of the the model is trained
@@ -71,4 +73,21 @@ for i in range(epoch):
         bias += learning_rate * error
 
     print("sum of squared error = ", sum_squared_error / 4, "\n\n")
+
+    sum_error_list.append(sum_squared_error/4)
+
+
+    testx1 = 1
+    testx2 = 0
+    unit = (testx1 * weight[0]) + (x2 * weight[1]) + bias
+    print("test:[1,0] " '\r')
+    print(' Output '+ str(unit))
+
+
+plt.figure()
+plt.plot(sum_error_list)
+plt.xlabel("epoch")
+plt.ylabel("error")
+plt.title(" adaline network binary input")
+plt.show()
 

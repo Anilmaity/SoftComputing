@@ -68,46 +68,54 @@ def updateParameters(parameters, gradients, learningRate):
     parameters["b2"] = parameters["b2"] - learningRate * gradients["db2"]
     return parameters
 
+def TrainTable(table):
+    if table == 'AND':
+        # Model to learn the AND truth table
+        X = np.array([[0, 0, 1, 1], [0, 1, 0, 1]])  # AND input
+        Y = np.array([[0, 0, 0, 1]])  # AND output
 
-# Model to learn the AND truth table
-X = np.array([[0, 0, 1, 1], [0, 1, 0, 1]])  # AND input
-Y = np.array([[0, 0, 0, 1]])  # AND output
+    if table == 'OR':
+        # Model to learn the OR truth table
+        X = np.array([[0, 0, 1, 1], [0, 1, 0, 1]]) # OR input
+        Y = np.array([[0, 1, 1, 1]]) # OR output
 
-# Model to learn the OR truth table
-#X = np.array([[0, 0, 1, 1], [0, 1, 0, 1]]) # OR input
-#Y = np.array([[0, 1, 1, 1]]) # OR output
-
-# Model to learn the NOT truth table
-#X = np.array([[0, 0, 1, 1], [0, 1, 0, 1]]) # OR input
-#Y = np.array([[1, 1, 0, 0]]) # OR output
+    if table == 'ANDNOT':
+        X = np.array([[0, 0, 1, 1], [0, 1, 0, 1]]) # OR input
+        Y = np.array([[1, 1, 0, 0]]) # OR output
 
 
-# Define model parameters
-neuronsInHiddenLayers = 2  # number of hidden layer neurons (2)
-inputFeatures = X.shape[0]  # number of input features (2)
-outputFeatures = Y.shape[0]  # number of output features (1)
-parameters = initializeParameters(inputFeatures, neuronsInHiddenLayers, outputFeatures)
-epoch = 100000
-learningRate = 0.01
-losses = np.zeros((epoch, 1))
+    # Define model parameters
+    neuronsInHiddenLayers = 2  # number of hidden layer neurons (2)
+    inputFeatures = X.shape[0]  # number of input features (2)
+    outputFeatures = Y.shape[0]  # number of output features (1)
+    parameters = initializeParameters(inputFeatures, neuronsInHiddenLayers, outputFeatures)
+    epoch = 1000
+    learningRate = 0.5
+    losses = np.zeros((epoch, 1))
 
-for i in range(epoch):
-    losses[i, 0], cache, A2 = forwardPropagation(X, Y, parameters)
-    gradients = backwardPropagation(X, Y, cache)
-    parameters = updateParameters(parameters, gradients, learningRate)
+    for i in range(epoch):
+        losses[i, 0], cache, A2 = forwardPropagation(X, Y, parameters)
+        gradients = backwardPropagation(X, Y, cache)
+        parameters = updateParameters(parameters, gradients, learningRate)
 
-# Evaluating the performance
-plt.figure()
-plt.plot(losses)
-plt.xlabel("EPOCHS")
-plt.ylabel("Loss value")
-plt.show()
+    # Evaluating the performance
+    plt.figure()
+    plt.plot(losses)
+    plt.xlabel("EPOCHS")
+    plt.ylabel("Loss value")
+    plt.title(table+" Table")
+    plt.show()
 
-# Testing
-X = np.array([[1, 1, 0, 0], [0, 1, 0, 1]])  # input
+    # Testing
+    X = np.array([[1, 0, 1, 1], [1, 1, 0, 1]])  # input
 
-cost, _, A2 = forwardPropagation(X, Y, parameters)
-prediction = (A2 > 0.5) * 1.0
-# print(A2)
-print(prediction)
+    cost, _, A2 = forwardPropagation(X, Y, parameters)
+    prediction = (A2 > 0.5) * 1.0
+    #print(A2)
+    print("Input :  [1, 0, 1, 1], [1, 1, 0, 1]")
+    print(table + " Table Result")
+    print(prediction)
 
+TrainTable('AND')
+TrainTable('OR')
+TrainTable('ANDNOT')

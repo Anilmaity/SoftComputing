@@ -5,62 +5,68 @@ import pandas as pd
 
 def step_function(x):
     if x < 0:
-        return 0
+        return -1
     else:
         return 1
 
 
-training_set = [((0, 0), 0), ((0, 1), 1), ((1, 0), 1), ((1, 1), 1)]
+def perceptron(X, y, lr, epochs):
+    # X --> Inputs.
+    # y --> labels/target.
+    # lr --> learning rate.
+    # epochs --> Number of iterations.
 
-# ploting data points using seaborn (Seaborn requires dataframe)
-plt.figure(0)
+    # m-> number of training examples
+    # n-> number of features
+    m, n = X.shape
+    print("Shape of input "+ str(X.shape))
 
-x1 = [training_set[i][0][0] for i in range(4)]
-x2 = [training_set[i][0][1] for i in range(4)]
-y = [training_set[i][1] for i in range(4)]
+    # Initializing parapeters(theta) to zeros.
+    # +1 in n+1 for the bias term.
+    theta = np.zeros((n + 1, 1))
 
-df = pd.DataFrame(
-    {'x1': x1,
-     'x2': x2,
-     'y': y
-     })
+    # Empty list to store how many examples were
+    # misclassified at every iteration.
+    n_miss_list = []
 
-# parameter initialization
-w = np.random.rand(2)
-errors = []
-eta = .5
-epoch = 30
-b = 0
+    # Training.
+    for epoch in range(epochs):
 
-# Learning
-for i in range(epoch):
-    for x, y in training_set:
-        # u = np.dot(x , w) +b
-        u = sum(x * w) + b
+        # variable to store #misclassified.
+        n_miss = 0
 
-        error = y - step_function(u)
+        # looping for every example.
+        for idx, x_i in enumerate(X):
 
-        errors.append(error)
-        for index, value in enumerate(x):
-            # print(w[index])
-            w[index] += eta * error * value
-            b += eta * error
+            # Insering 1 for bias, X0 = 1.
+            x_i = np.insert(x_i, -1, 1).reshape(-1, 1)
 
-        # produce all decision boundaries
-            a = [0,-b/w[1]]
-            c = [-b/w[0],0]
-            plt.figure(1)
-            plt.plot(a,c)
+            # Calculating prediction/hypothesis.
+            y_hat = step_function(np.dot(x_i.T, theta))
+
+            print("Prdicted output " +str(y_hat) + " for input" + str(x_i.T))
 
 
-# final decision boundary
-a = [0, -b / w[1]]
-c = [-b / w[0], 0]
-plt.plot(a, c)
 
-# ploting errors
-plt.figure(2)
-plt.ylim([-1, 1])
-plt.plot(errors)
+            # Updating if the example is misclassified.
+            if (np.squeeze(y_hat) - y[idx]) != 0:
+                theta += lr * ((y[idx] - y_hat) * x_i)
 
-plt.show()
+                # Incrementing by 1.
+                n_miss += 1
+
+        # Appending number of misclassified examples
+        # at every iteration.
+        n_miss_list.append(n_miss)
+
+    return theta, n_miss_list
+
+
+data = np.array([[1,-1,1,-1,1,-1,-1,1,-1],[1,-1,1,1,1,1,1,-1,1]])
+
+Target = [1 , -1]
+
+theta , miss = perceptron(data,Target,0.1,10)
+
+
+

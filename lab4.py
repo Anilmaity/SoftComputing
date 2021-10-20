@@ -1,11 +1,10 @@
-#ACHYUT SAPARIYA (180110120048)
 
 from __future__ import print_function
-import matplotlib, sys
+import  sys
 from matplotlib import pyplot as plt
 import numpy as np
 
-#---------------------------------------------------------------------#
+
 def predict(inputs, weights):
     activation = 0.0
     for i, w in zip(inputs, weights):
@@ -57,8 +56,8 @@ def plot(matrix, weights=None, title="Prediction Matrix"):
         plt.xlim(0, 1.05)
         plt.ylim(-0.05, 1.05)
 
-        c0s = plt.scatter(c0_data[0], c0_data[1], s=40.0, c='r', label='Class -1')
-        c1s = plt.scatter(c1_data[0], c1_data[1], s=40.0, c='b', label='Class 1')
+        c0s = plt.scatter(c0_data[0], c0_data[1], s=40.0, c='y', label='Class -1')
+        c1s = plt.scatter(c1_data[0], c1_data[1], s=40.0, c='g', label='Class 1')
 
         plt.legend(fontsize=10, loc=1)
         plt.show()
@@ -67,9 +66,7 @@ def plot(matrix, weights=None, title="Prediction Matrix"):
     if len(matrix[0]) == 4:  # if 2D inputs, excluding bias and ys
         fig, ax = plt.subplots()
         ax.set_title(title)
-        plt.title("Achyut",
-                  loc='right',
-                  rotation=45)
+
         ax.set_xlabel("i1")
         ax.set_ylabel("i2")
 
@@ -87,7 +84,7 @@ def plot(matrix, weights=None, title="Prediction Matrix"):
             xs, ys = np.meshgrid(xs, ys)
             zs = np.array(zs)
             zs = zs.reshape(xs.shape)
-            cp = plt.contourf(xs, ys, zs, levels=[-1, -0.0001, 0, 1], colors=('b', 'r'), alpha=0.1)
+            cp = plt.contourf(xs, ys, zs, levels=[-1, -0.0001, 0, 1], colors=('y', 'g'), alpha=0.1)
 
         c1_data = [[], []]
         c0_data = [[], []]
@@ -107,7 +104,7 @@ def plot(matrix, weights=None, title="Prediction Matrix"):
         plt.xlim(0, 1.05)
         plt.ylim(0, 1.05)
 
-        c0s = plt.scatter(c0_data[0], c0_data[1], s=40.0, c='r', label='Class -1')
+        c0s = plt.scatter(c0_data[0], c0_data[1], s=40.0, c='g', label='Class -1')
         c1s = plt.scatter(c1_data[0], c1_data[1], s=40.0, c='b', label='Class 1')
 
         plt.legend(fontsize=10, loc=1)
@@ -156,7 +153,7 @@ def train_weights(matrix, weights, nb_epoch=10, l_rate=1.00, do_plot=False, stop
 
 def main():
     nb_epoch = 10
-    l_rate = 1.0
+    l_rate = 1.2
     plot_each_epoch = False
     stop_early = True
 

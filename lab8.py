@@ -1,4 +1,4 @@
-#ACHYUT SAPARIYA(180110120048)
+
 # import Python Libraries
 import numpy as np
 from matplotlib import pyplot as plt
@@ -79,7 +79,7 @@ neuronsInHiddenLayers = 2  # number of hidden layer neurons (2)
 inputFeatures = X.shape[0]  # number of input features (2)
 outputFeatures = Y.shape[0]  # number of output features (1)
 parameters = initializeParameters(inputFeatures, neuronsInHiddenLayers, outputFeatures)
-epoch = 100000
+epoch = 100
 learningRate = 0.01
 losses = np.zeros((epoch, 1))
 
@@ -91,9 +91,6 @@ for i in range(epoch):
 # Evaluating the performance
 plt.figure()
 plt.plot(losses)
-plt.title("Achyut",
-             loc='right',
-             rotation=45)
 plt.xlabel("EPOCHS")
 plt.ylabel("Loss value")
 plt.show()
@@ -103,5 +100,6 @@ X = np.array([[1, 1, 0, 0], [0, 1, 0, 1]])  # XOR input
 cost, _, A2 = forwardPropagation(X, Y, parameters)
 prediction = (A2 > 0.5) * 1.0
 # print(A2)
-print(prediction)
+print("inputs : " + str(X))
+print("prdicted Output : " + str(prediction))
 

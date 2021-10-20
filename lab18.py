@@ -1,17 +1,16 @@
-'''Write a program for maximizing 𝑓(𝑥) = 𝑥
-2 using GA, where 𝑥 is the range from 0 to 20.
-Perform 5 iterations only
-'''
+''' Use gatool and minimize the quadratic equation 𝑓(𝑥) = 𝑥
+2 + 3𝑥 + 2 ; −6 ≤ 𝑥 ≤ 0.
+ '''
 
 from random import randint
 
 def mutation(member):
     mutate_member = []
     for mem in member:
-        mutate = randint(-6,0)
+        mutate = randint(0,20)
         mutate_side = randint(-1,1)
         #print(mutate,mutate_side)
-        if (mem+(mutate*mutate_side) < 0 and mem+(mutate*mutate_side) > -6):
+        if (mem+(mutate*mutate_side) < 20 and mem+(mutate*mutate_side) > 0):
             mutate_member.append(mem + (mutate*mutate_side))
         else:
             mutate_member.append(mem)
@@ -20,18 +19,25 @@ def mutation(member):
     return mutate_member
 
 
-
-
-
-
 def selection(fitnessvalue):
-    # Roulette Wheel Selection
-    new_member = []
-    for mem in range(len(fitnessvalue)):
-        if fitnessvalue[mem] == min(fitnessvalue):
-            new_member_type =  member[mem]
-            new_member = [new_member_type,new_member_type,new_member_type,new_member_type,new_member_type]
+    # Steady State Selection
+    avg =sum(fitnessvalue)/5
 
+    error = 0
+    mem_val = [round(fitnessvalue[0]/avg+error) , round(fitnessvalue[1]/avg+error) , round(fitnessvalue[2]/avg+error) , round(fitnessvalue[3]/avg+error) ,int(fitnessvalue[4]/avg+error)]
+    mem_sum = sum(mem_val)
+    error = (5 - mem_sum)
+    if error > 0:
+        mem_val[0] += error
+    else:
+        if mem_val[0]>error:
+            mem_val[0] -= error
+
+
+    new_member = []
+    for mem in range(5):
+        for x in range(mem_val[mem]):
+            new_member.append(member[mem])
 
     return new_member
 
@@ -46,11 +52,11 @@ def fitness(members):
     return fitvalue
 
 def function(x):
-    return x*x + 3*x + 2
+    return x*x
 
 
 
-member = [randint(-6,0),randint(-6,0),randint(-6,0),randint(-6,0),randint(-6,0) ]
+member = [randint(0,20),randint(0,20),randint(0,20),randint(0,20),randint(0,20) ]
 performance_gen =[]
 
 # For 5 generation
@@ -69,7 +75,7 @@ for generation in range(5):
     performance_gen.append(max(fitness(member)))
 
 
-print("Lowest value " + str((min(fitness(member)))))
+print("Highest value " + str((max(fitness(member)))))
 
 
 

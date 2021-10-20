@@ -1,15 +1,19 @@
-# Import Libraries
+
 import numpy as np
 import pandas as pd
-from sklearn.datasets import load_iris
+from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 
 # Load dataset
-data = load_iris()
+data = load_breast_cancer()
 # Get features and target
 X=data.data
 y=data.target
+print("Feature names "+ str(data.feature_names))
+print("class names : " + str(data.target_names))
+print("example Features values : " + str(X[0]))
+
 # Get dummy variable
 y = pd.get_dummies(y).values
 y[:3]
@@ -17,18 +21,18 @@ y[:3]
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=20, random_state=4)
 
 # Initialize variables
-learning_rate = 0.1
-iterations = 5000
+learning_rate = 0.2
+iterations = 500
 N = y_train.size
 
 # number of input features
-input_size = 4
+input_size = 30
 
 # number of hidden layers neurons
-hidden_size = 2
+hidden_size = 10
 
 # number of neurons at the output layer
-output_size = 3
+output_size = 2
 
 results = pd.DataFrame(columns=["mse", "accuracy"])
 
@@ -86,9 +90,6 @@ for itr in range(iterations):
 
 
 plt.title("Accuracy")
-plt.title("Achyut",
-             loc='right',
-             rotation=45)
 plt.plot(results.accuracy)
 plt.show()
 # results.accuracy.plot(title="Accuracy")

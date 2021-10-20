@@ -1,4 +1,3 @@
-#ACHYUT SAPARIYA(180110120048)
 
 import numpy as np
 
@@ -98,10 +97,3 @@ print(f'Fuzzy union: \n{a | b}')
 print(f'Fuzzy intersection: \n{a & b}')
 print(f'Fuzzy inversion of b: \n{~b}')
 print(f"Fuzzy inversion of a: \n {~a}")
-print(f'Fuzzy Subtraction: \n{a - b}')
-
-r = np.array([[0.6, 0.6, 0.8, 0.9], [0.1, 0.2, 0.9, 0.8], [0.9, 0.3, 0.4, 0.8], [0.9, 0.8, 0.1, 0.2]])
-s = np.array([[0.1, 0.2, 0.7, 0.9], [1.0, 1.0, 0.4, 0.6], [0.0, 0.0, 0.5, 0.9], [0.9, 1.0, 0.8, 0.2]])
-print(f"Max Min: of \n{r} \nand \n{s}\n:\n\n")
-
-print(FuzzySet.max_min(r, s))
