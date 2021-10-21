@@ -1,7 +1,4 @@
-'''Write a program for maximizing 𝑓(𝑥) = 𝑥
-2 using GA, where 𝑥 is the range from 0 to 20.
-Perform 5 iterations only
-'''
+
 
 from random import randint
 

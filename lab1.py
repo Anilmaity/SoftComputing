@@ -7,6 +7,7 @@ import numpy as np
 def identy(x):
         return x
 
+
 def binary(x):
     y=[]
     for mem in x:
@@ -14,7 +15,6 @@ def binary(x):
             y.append(1)
         else:
             y.append(0)
-
     return y
 
 def bipolar(x):
